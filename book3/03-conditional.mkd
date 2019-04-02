@@ -107,7 +107,7 @@ True
 ~~
 
 Essa flexibilidade pode ser útil, mas existem algumas sutilezas que
-podem ser confusas. você pode querer evitá-lo até você ter
+podem ser confusas. Você pode querer evitá-lo até você ter
 certeza de que sabe o que está fazendo.
 
 Execução condicional
