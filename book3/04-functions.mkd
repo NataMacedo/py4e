@@ -73,28 +73,27 @@ on any set of values, as we will see in later chapters.
 You should treat the names of built-in functions as reserved words
 (i.e., avoid using "max" as a variable name).
 
-Type conversion functions
+Funções de conversão de tipo
 -------------------------
 
-\index{conversion!type}
-\index{type conversion}
+\index{conversão!tipo}
+\index{conversão de tipo}
 
-Python also provides built-in functions that convert values from one
-type to another. The `int` function takes any value and
-converts it to an integer, if it can, or complains otherwise:
+Python também fornece funções internas que convertem valores de um tipo para outro. A função `int` pega qualquer valor e
+converte em um inteiro, se puder, ou reclama caso contrário:
 
-\index{int function}
-\index{function!int}
+\index{int função}
+\index{função!int}
 
 ~~~~ {.python}
 >>> int('32')
 32
->>> int('Hello')
-ValueError: invalid literal for int() with base 10: 'Hello'
+>>> int('Olá')
+ValueError: literal inválido para int() com base 10: 'Olá'
 ~~~~
 
-`int` can convert floating-point values to integers, but it
-doesn't round off; it chops off the fraction part:
+`int` pode converter valores de pontos-flutuante em inteiros, mas não arredonda;
+corta a parte da fração:
 
 ~~~~ {.python}
 >>> int(3.99999)
@@ -103,8 +102,7 @@ doesn't round off; it chops off the fraction part:
 -2
 ~~~~
 
-`float` converts integers and strings to floating-point
-numbers:
+`float` converte inteiros e strings em números de ponto-flutuante:
 
 \index{float function}
 \index{function!float}
@@ -116,7 +114,7 @@ numbers:
 3.14159
 ~~~~
 
-Finally, `str` converts its argument to a string:
+Finalmente, `str` converte seu argumento para uma string:
 
 \index{str function}
 \index{function!str}
