@@ -708,57 +708,50 @@ Follows:
 
 Você pode ver os campos `id`, `nome` e `visitado` na tabela `Pessoas`, bem como os números em ambas as pontas da relação na tabela `Segue`. Na tabela `Pessoas`, vemos que as três primeiras pessoas foram visitadas e suas informações foram obtidas. Os dados na tabela `Segue` indicam que `drchuck` (usuário 1) é amigo de todas as pessoas nas primeiras 5 linhas. Isto faz sentido já que o primeiro conjunto de informações recuperado e armazenado foi referente aos amigos de `drchuck`. Se desejasse imprimir mais linhas da tabela `Segue`, também veria os amigos dos usuários 2 e 3.
 
-
-Three kinds of keys
+Três tipos de chaves
 -------------------
 
-Now that we have started building a data model putting our data into
-multiple linked tables and linking the rows in those tables using
-*keys*, we need to look at some terminology around keys.
-There are generally three kinds of keys used in a database model.
+Agora que começamos a construir um modelo de dados colocando nossos dados em 
+várias tabelas vinculadas e vinculando as linhas nessas tabelas usando
+*chaves*, precisamos examinar algumas terminologias em torno das chaves. 
+Geralmente, existem três tipos de chaves usadas em um modelo de banco de dados.
 
--   A *logical key* is a key that the "real world" might
-    use to look up a row. In our example data model, the
-    `name` field is a logical key. It is the screen name for
-    the user and we indeed look up a user's row several times in the
-    program using the `name` field. You will often find that
-    it makes sense to add a `UNIQUE` constraint to a logical
-    key. Since the logical key is how we look up a row from the outside
-    world, it makes little sense to allow multiple rows with the same
-    value in the table.
+-   Uma *chave lógica* é uma chave que o "mundo real" pode usar para procurar uma linha.
+    No nosso modelo de dados de exemplo, o campo de 
+    `nome` é uma chave lógica.  É o nome da tela do usuário e, de fato, procuramos 
+    a linha do usuário várias vezes no programa usando o campo `nome`. 
+    Você encontrará muitas vezes que faz sentido adicionar uma restrição
+   `ÚNICA` a uma chave lógica. 
+   Como a chave lógica é como procuramos uma linha do mundo externo, 
+   faz pouco sentido permitir várias linhas com o mesmo valor na tabela.
 
--   A *primary key* is usually a number that is assigned
-    automatically by the database. It generally has no meaning outside
-    the program and is only used to link rows from different tables
-    together. When we want to look up a row in a table, usually
-    searching for the row using the primary key is the fastest way to
-    find the row. Since primary keys are integer numbers, they take up
-    very little storage and can be compared or sorted very quickly. In
-    our data model, the `id` field is an example of a primary
-    key.
+-   Uma *chave primária*  é geralmente um número atribuído automaticamente pelo banco de dados.
+    Geralmente não tem significado fora do programa e é usado apenas para vincular linhas de tabelas diferentes. 
+    Quando queremos procurar uma linha em uma tabela, geralmente procurar a linha usando a chave primária
+    é a maneira mais rápida de encontrar a linha. Como as chaves 
+    primárias são números inteiros, elas ocupam muito pouco espaço de 
+    armazenamento e podem ser comparadas ou classificadas muito rapidamente. Em nosso modelo de dados, 
+    o campo `id` é um exemplo de chave primária
 
--   A *foreign key* is usually a number that points to
-    the primary key of an associated row in a different table. An
-    example of a foreign key in our data model is the `from_id`.
+-   Uma *chave estrangeira* é geralmente um número que aponta para a 
+    chave primária de uma linha associada em uma tabela diferente.
+    Um exemplo de chave estrangeira em nosso modelo de dados é o  `from_id`.
 
-We are using a naming convention of always calling the primary key field
-name `id` and appending the suffix `_id` to any field name
-that is a foreign key.
+Estamos usando uma convenção de nomenclatura de sempre chamar o `id` do nome da chave primária e anexar o sufixo `_id`qualquer nome de campo que seja uma chave estrangeira.
 
-Using JOIN to retrieve data
+Usando JOIN para recuperar dados
 ---------------------------
 
-Now that we have followed the rules of database normalization and have
-data separated into two tables, linked together using primary and
-foreign keys, we need to be able to build a `SELECT` that
-reassembles the data across the tables.
+Agora que seguimos as regras de normalização do banco de dados e
+temos dados separados em duas tabelas, vinculadas por meio de chaves primárias e estrangeiras, 
+precisamos ser capazes de criar um  `SELECT`  que remonte os dados pelas tabelas.
 
-SQL uses the `JOIN` clause to reconnect these tables. In the
-`JOIN` clause you specify the fields that are used to
-reconnect the rows between the tables.
+SQL usa a cláusula `JOIN` para reconectar essas tabelas. Na cláusula 
+`JOIN` você especifica os campos que são usados 
+para reconectar as linhas entre as tabelas.
 
-The following is an example of a `SELECT` with a
-`JOIN` clause:
+A seguir é aprensentado um `SELECT` com cláusula 
+`JOIN`:
 
 ~~~~ {.sql}
 SELECT * FROM Follows JOIN People
@@ -772,26 +765,28 @@ Take the rows from `Follows` and append the row from
 `People` where the field `from_id` in `Follows` is
 the same the `id` value in the `People` table.
 
-![Connecting Tables Using JOIN](height=3.5in@figs2/join)
+![Conectando tabelas usando JOIN](height=3.5in@figs2/join)
 
-The result of the JOIN is to create extra-long "metarows" which have
-both the fields from `People` and the matching fields from
-`Follows`. Where there is more than one match between the
-`id` field from `People` and the `from_id` from
-`People`, then JOIN creates a metarow for *each* of the
-matching pairs of rows, duplicating data as needed.
+O resultado do JOIN  é criar "metalinhas" extra-longasque possuem os 
+campos de `People`  e os campos correspondentes de
+`Follows`. Onde houver mais de uma correspondência entre o campo de
+`id` de `People` e o `from_id` de
+`People`, JOIN cria uma metarow para *cada* um dos pares de
+linhas correspondentes,
+duplicando os dados conforme necessário.
 
-The following code demonstrates the data that we will have in the
-database after the multi-table Twitter spider program (above) has been
-run several times.
+O código a seguir demonstra os dados que teremos no banco de dados 
+após o programa spider do Twitter com várias tabelas (acima) 
+ter sido executado várias vezes.
 
 \VerbatimInput{../code3/twjoin.py}
 
-In this program, we first dump out the `People` and
-`Follows` and then dump out a subset of the data in the
-tables joined together.
+Nesse programa, nós primeiramente despejamos a`People` e
+`Follows` e depois despejamos um subconjunto dos dados
+nas tabelas reunidas.
 
-Here is the output of the program:
+
+Aqui está a saída do programa:
 
 ~~~~
 python twjoin.py
@@ -818,18 +813,18 @@ Connections for id=2:
 20 rows.
 ~~~~
 
-You see the columns from the `People` and
-`Follows` tables and the last set of rows is the result of
-the `SELECT` with the `JOIN` clause.
+Você vê as colunas das tabelas `People` e
+`Follows`  e o último conjunto de linhas é o resultado 
+da `SELECT` com a cláusula `JOIN`.
 
-In the last select, we are looking for accounts that are friends of
-"opencontent" (i.e., `People.id=2`).
+Na última seleção, procuramos contas amigas de
+"conteúdo aberto" (i.e., `People.id=2`).
 
-In each of the "metarows" in the last select, the first two columns are
-from the `Follows` table followed by columns three through
-five from the `People` table. You can also see that the
-second column (`Follows.to_id`) matches the third column
-(`People.id`) in each of the joined-up "metarows".
+Em cada uma das  "metarows" na última seleção, as duas primeiras colunas são da tabela `Follows` 
+ seguidas pelas colunas de três a cinco da tabela `People`. 
+ Você também pode ver que a segunda coluna
+ (`Follows.to_id`) corresponde à terceira coluna
+(`People.id`) em cada uma das "metalinhas" associadas.
 
 Summary
 -------
